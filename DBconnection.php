@@ -13,6 +13,7 @@ class DBconnection {
 		return $conn->errorInfo();
 	}
 	
+	
 	public function addVar( $value, $type = null ){
 		if( is_null( $this->variablesList ) ){
 			$this->variablesList = array();
@@ -36,9 +37,6 @@ class DBconnection {
 				$stmt->bindValue($par[ "id" ], $par[ "val" ]);
 			}
 		}
-		
-		//var_dump( $query, $execParam );
-		
 		
 		$stmt->execute(); 
 		
@@ -98,7 +96,15 @@ class DBconnection {
 		return $conn->lastInsertId();
 	}
 	
-
+	/**
+	 * function to select from DB
+	 *
+	 * @param String $table
+	 * @param Array $fields
+	 * @param Array $selectFieldsList
+	 * @param Array $whereFields
+	 * @return Array
+	 */
 	public function select( $table, $fields, $selectFieldsList = null, $whereFields = null ){
 		$query = "SELECT " . self::getSelectPart( $this->getSelectedFieldsFromFields( $fields, $selectFieldsList ) ) . " FROM " . $table . (is_null( $whereFields ) ? "" : (" WHERE " . $this->getWherePart( $fields, $whereFields )));
 		$result = $db->selectQuery( $query, null );
@@ -129,8 +135,7 @@ class DBconnection {
 	 *
 	 * @param String $query
 	 * @param Array $fields
-	 * @param DBconnection::$resultType_arrayByCol... $resultType
-	 * @return Result in given format
+	 * @return Array
 	 */
 	public function selectQuery( $query, $fields = null ){
 		$stmt = $this->execWithVars( $query );
@@ -150,11 +155,26 @@ class DBconnection {
 		return $stmt->rowCount();
 	}
 	
+	/**
+	 * function for DB update
+	 *
+	 * @param String $table
+	 * @param Array $fields
+	 * @param Array $setData
+	 * @param Array $whereData
+	 * @return Number
+	 */
 	public function update( $table, $fields, $setData, $whereData ){
 		$query = "UPDATE " . $table . " SET " . $db->getUpdatePart($fields, $setData) . " WHERE " . $db->getWherePart( $fields, $whereData );
-		$this->updateQuery( $query );
+		return $this->updateQuery( $query );
 	}
 	
+	/**
+	 * function for DB update queries
+	 *
+	 * @param String $query
+	 * @return Number
+	 */
 	public function updateQuery( $query ){
 		$stmt = $this->execWithVars( $query );
 		
@@ -186,7 +206,7 @@ class DBconnection {
 		return false;
 	}
 	
-///////////////////////////// work with NOT CONNECTION
+///////////////////////////// work without connection
 
 	public function getCommaSepListPart( $list ){
 		if( is_string( $list ) ){
@@ -311,8 +331,6 @@ class DBconnection {
 	}
 	
 	
-	//$asFields = null nshanakuma nuyn anunnerov bayc aranc tablenamespacei
-	//$asFields = string nshanakuma nuyn anunnerov bayc et string@ ibrev prefix
 	public static function getSelectPart( $fields, $tableNamespace = null, $asFields = null ){
 		if( is_null( $asFields ) ){
 			$asFields = $fields;
