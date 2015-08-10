@@ -1,4 +1,4 @@
-# easy-db-layer
+# Easy DB Layer
 This tool provides simple and powerful structure and functionality to work with MySQL database
 
 ## Structure
