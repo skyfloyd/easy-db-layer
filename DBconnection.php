@@ -107,7 +107,7 @@ class DBconnection {
 	 */
 	public function select( $table, $fields, $selectFieldsList = null, $whereFields = null ){
 		$query = "SELECT " . self::getSelectPart( $this->getSelectedFieldsFromFields( $fields, $selectFieldsList ) ) . " FROM " . $table . (is_null( $whereFields ) ? "" : (" WHERE " . $this->getWherePart( $fields, $whereFields )));
-		$result = $db->selectQuery( $query, null );
+		$result = $this->selectQuery( $query, null );
 	
 		return $result;
 	}
@@ -165,7 +165,7 @@ class DBconnection {
 	 * @return Number
 	 */
 	public function update( $table, $fields, $setData, $whereData ){
-		$query = "UPDATE " . $table . " SET " . $db->getUpdatePart($fields, $setData) . " WHERE " . $db->getWherePart( $fields, $whereData );
+		$query = "UPDATE " . $table . " SET " . $this->getUpdatePart($fields, $setData) . " WHERE " . $this->getWherePart( $fields, $whereData );
 		return $this->updateQuery( $query );
 	}
 	
