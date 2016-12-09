@@ -11,3 +11,7 @@ Change $tableName value to your database table name.
 $fields array represents mapping of database table fields and data keys in application.
 
 After it you can write functions to manage your table data. Use DBconnection class instance functions to query to database.
+
+## License
+
+MIT License
