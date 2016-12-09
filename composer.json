@@ -1,0 +1,7 @@
+{
+  "name": "sky-floyd/easy-db-layer",
+  "description": "Database Manager",
+  "require": {
+    "php": "^5.3.3 || ^7.0"
+  }
+}
